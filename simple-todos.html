@@ -21,7 +21,7 @@
       {{/if}}
     </header>
 
-    <ul>
+    <ul id="task-list">
       {{#each tasks}}
         {{> task}}
       {{/each}}
@@ -30,7 +30,7 @@
 </body>
 
 <template name="task">
-  <li class="{{#if checked}}checked{{/if}} {{#if private}}private{{/if}}">
+  <li class="{{#if checked}}checked{{/if}} {{#if private}}private{{/if}} task">
     <button class="delete">&times;</button>
 
     <input type="checkbox" checked="{{checked}}" class="toggle-checked" />
@@ -38,7 +38,7 @@
     {{#if isOwner}}
       <button class="toggle-private">
         {{#if private}}
-          Private    
+          Private
         {{else}}
           Public
         {{/if}}

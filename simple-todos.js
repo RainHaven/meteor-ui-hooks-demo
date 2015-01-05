@@ -40,6 +40,25 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.body.rendered = function () {
+    this.find('#task-list')._uihooks = {
+      insertElement: function(node, next) {
+        $(node).hide()
+          .insertBefore(next)
+          .fadeIn(500);
+      },
+      moveElement: function (node, next) {
+
+      },
+      removeElement: function (node) {
+        console.log("remove called");
+        $(node).fadeOut( 500, function () {
+          $(node).remove();
+        });
+      },
+    }
+  }
+
   Template.task.events({
     "click .toggle-checked": function () {
       // Set the checked property to the opposite of its current value
