@@ -3,6 +3,7 @@ Tasks = new Mongo.Collection("tasks");
 if (Meteor.isClient) {
   // This code only runs on the client
   Meteor.subscribe("tasks");
+  var EVENTS = 'webkitTransitionEnd oTransitionEnd transitionEnd msTransitionEnd transitionend';
 
   Template.body.helpers({
     tasks: function () {
@@ -43,18 +44,21 @@ if (Meteor.isClient) {
   Template.body.rendered = function () {
     this.find('#task-list')._uihooks = {
       insertElement: function(node, next) {
-        $(node).hide()
-          .insertBefore(next)
-          .fadeIn(500);
+        $(node).addClass('hidden')
+          .insertBefore(next);
+
+        setTimeout( function () {
+          $(node).removeClass('hidden');
+        }, 20);
       },
       moveElement: function (node, next) {
 
       },
       removeElement: function (node) {
-        console.log("remove called");
-        $(node).fadeOut( 500, function () {
-          $(node).remove();
-        });
+        $(node).addClass('hidden')
+          .on(EVENTS, function() {
+            $(node).remove()
+          });
       },
     }
   }
